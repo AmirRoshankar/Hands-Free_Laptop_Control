@@ -66,13 +66,13 @@ fHeight = 0
 frameWidth = 0
 frameHeight = 0
 
-def rescale_frame(frame, wpercent=130, hpercent=130):
+def rescale_frame(frame, wpercent=100, hpercent=100):
     global fWidth, fHeight
     fWidth = int(frame.shape[1] * wpercent / 100)
     fHeight = int(frame.shape[0] * hpercent / 100)
 
-    print(str(fWidth))
-    print(str(fHeight))
+    ##print(str(fWidth))
+    #print(str(fHeight))
 
 
     return cv2.resize(frame, (fWidth, fHeight), interpolation=cv2.INTER_AREA)
@@ -125,7 +125,7 @@ def max_contour(frame, contour_list):
     global resetCount
     neededHands = 0
 
-    neededHands = 0
+    handFound = False
 
     exMatch = None
 
@@ -139,7 +139,7 @@ def max_contour(frame, contour_list):
 
     with open("Hands.txt", "rb") as fp:
         defHands = pickle.load(fp)
-    print("\n\n numHands" +str(len(defHands)) + "\n\n")
+    #print("\n\n numHands" +str(len(defHands)) + "\n\n")
 
     #print("\n\n cont list " +str(len(defHands)) + "\n\n")
 
@@ -183,25 +183,23 @@ def max_contour(frame, contour_list):
 
         try:
             #if ( len(approx == 3) or (len(approx) >= 11 and len (aprox) < 14) or (len(approx) >= 8 and len (aprox) <= 9) or (len(approx) >= 18 and len (aprox) <= 19)) and len(defects) >=2 and area_cnt > 9000 and moment['m00'] != 0 and ((tempx-bx)**2 + (tempy-by)**2 < 200**2):#area_cnt>min and area_cnt<max and len(defects)>=2:
-            cv2.drawContours(cropped, cnt, -1, (0,0,255), 3)
-
             #print("Center: " + str(tempx) + ", "+ str(tempy))
             #print("Should be : " + str(bx) + ", "+ str(by))
 
 
             #print("bad")
             #cv2.circle(frame, bx,by, 10,[10,10,10]
-            print("num matched: " +str(numMatch))
+            #print("num matched: " +str(numMatch))
 
-            if numMatch >neededHands and area_cnt > 2000 and len(approx)>=5 and len(approx) <=19 and len(defects) >=2 and  ((tempx-bx)**2 + (tempy-by)**2 < 100**2) :#and (areaHand == -1 or abs(area_cnt -areaHand) <2000) and moment['m00'] != 0 and ((tempx-bx)**2 + (tempy-by)**2 < 100**2):#area_cnt>min and area_cnt<max and len(defects)>=2:
+            if numMatch >neededHands and area_cnt > 2000  and  ((tempx-bx)**2 + (tempy-by)**2 < 150**2) :#and (areaHand == -1 or abs(area_cnt -areaHand) <2000) and moment['m00'] != 0 and ((tempx-bx)**2 + (tempy-by)**2 < 100**2):#area_cnt>min and area_cnt<max and len(defects)>=2:
                 handFound = True
-            #if numMatch > 0 :#and ((tempx-bx)**2 + (tempy-by)**2 < 100**2):
+            #if numMatch > 0 :#and ((tempx-bx)**2 + (tempy-by)**2 < 100**2) and and len(approx)>=5 and len(approx) <=19 and len(defects) >=2
 
             #area_cnt>max_area
 
                 #print("\n\n in \n\n")
                 cv2.drawContours(cropped, cnt, -1, (0,255,0), 3)
-                cv2.drawContours(cropped, exMatch, -1, (255,0,255), 3)
+                #cv2.drawContours(cropped, exMatch, -1, (255,0,255), 3)
                 newHands.append(cnt)
                 areaHand = area_cnt
                 bx = tempx
@@ -218,15 +216,15 @@ def max_contour(frame, contour_list):
                     by = fHeight-int(height/2)
                 '''
 
-                print("Center: " + str(bx) + ", "+ str(by))
+                #print("Center: " + str(bx) + ", "+ str(by))
                 max_area = area_cnt
                 max_i = i
-                print("accepted area" + str(area_cnt))
+                #print("accepted area" + str(area_cnt))
                 #cv2.drawContours(frame, cnt, -1, (0,255,0), 3)
 
                 #peri = cv2.arcLength(cnt, True)
                 #approx = cv2.approxPolyDP(cnt, 0.01 * peri, True)
-                print("Num of sides: " + str(len(approx)))
+                #print("Num of sides: " + str(len(approx)))
                 lengthColec.append(len(approx))
                 #maxDef =max(defects[0].depth, defects[1].depth)
                 #print("convexityDefectDepth: " + str(maxDef))
@@ -239,7 +237,6 @@ def max_contour(frame, contour_list):
             return None
 
         except:
-            print("do nothin")
             if max_i != -1:
                 return contour_list[max_i]
             return None
@@ -253,12 +250,12 @@ def draw_rect(frame):
     global total_rectangle, hand_rect_one_x, hand_rect_one_y, hand_rect_two_x, hand_rect_two_y
 
     hand_rect_one_x = np.array(
-        [6 * rows / 40, 6 * rows / 40, 6 * rows / 40, 6 * rows / 40, 9 * rows / 40, 9 * rows / 40, 9 * rows / 40, 9 * rows / 40, 12 * rows / 40,
-         12 * rows / 40, 12 * rows / 40, 12 * rows / 40, 15 * rows / 40, 15 * rows / 40, 15 * rows / 40, 15 * rows / 40], dtype=np.uint32)
+        [6 * rows / 30, 6 * rows / 30, 6 * rows / 30, 6 * rows / 30, 9 * rows / 30, 9 * rows / 30, 9 * rows / 30, 9 * rows / 30, 12 * rows / 30,
+         12 * rows / 30, 12 * rows / 30, 12 * rows / 30, 15 * rows / 30, 15 * rows / 30, 15 * rows / 30, 15 * rows / 30], dtype=np.uint32)
 
     hand_rect_one_y = np.array(
-        [9 * cols / 40, 10 * cols / 40, 11 * cols / 40, 12 * cols / 40 , 9 * cols / 40, 10 * cols / 40, 11 * cols / 40, 12 * cols / 40, 9 * cols / 40,
-         10 * cols / 40, 11 * cols / 40, 12 * cols / 40, 9 * cols / 40, 10 * cols / 40, 11 * cols / 40, 12 * cols / 40], dtype=np.uint32)
+        [9 * cols / 30, 10 * cols / 30, 11 * cols / 30, 12 * cols / 30 , 9 * cols / 30, 10 * cols / 30, 11 * cols / 30, 12 * cols / 30, 9 * cols / 30,
+         10 * cols / 30, 11 * cols / 30, 12 * cols / 30, 9 * cols / 30, 10 * cols / 30, 11 * cols / 30, 12 * cols / 30], dtype=np.uint32)
 
     hand_rect_two_x = hand_rect_one_x + 10
     hand_rect_two_y = hand_rect_one_y + 10
@@ -309,11 +306,11 @@ def hist_masking(backFrame, frame, hist):
 
     if (ex > fWidth):
         ex = fWidth-10
-        sx = ex - width-10
+        sx = ex - width
         bx = int((ex+sx)/2)
     if (ey > fHeight):
         ey = fHeight-10
-        sy = ey - height-10
+        sy = ey - height
         by = int((ey+sy)/2)
 
 
@@ -386,16 +383,6 @@ def farthest_point(defects, contour, centroid):
             return None
 
 
-def draw_circles(frame, traverse_point):
-    if traverse_point is not None:
-        for i in range(len(traverse_point)):
-            cv2.circle(frame, traverse_point[i], int(5 - (5 * i * 3) / 100), [0, 255, 255], -1)
-
-def cover_face (frame):
-    start_p = (startX, startY)
-    end_p = (endX, endY)
-    color = (255, 0, 0)
-    cv2.rectangle(frame, start_p, end_p, color, 1)
 
 def manage_image_opr(backFrame, frame, hand_hist):
     global cx, cy, cropped, fWidth, fHeight
@@ -406,130 +393,76 @@ def manage_image_opr(backFrame, frame, hand_hist):
     #cnt_centroid =
     centroid(max_cont)
     cnt_centroid = cx, cy
-    cv2.circle(cropped, cnt_centroid, 5, [255, 0, 255], -1)
+    #cv2.circle(cropped, cnt_centroid, 5, [255, 0, 255], -1)
 
     if max_cont is not None:
         hull = cv2.convexHull(max_cont, returnPoints=False)
         defects = cv2.convexityDefects(max_cont, hull)
         far_point = farthest_point(defects, max_cont, cnt_centroid)#cx, cy)#cnt_centroid)
-        print("Centroid : " + str(cnt_centroid) + ", farthest Point : " + str(far_point)) #should be cnt_centroid
-        cv2.circle(frame, far_point, 5, [0, 0, 255], -1)
+        #print("Centroid : " + str(cnt_centroid) + ", farthest Point : " + str(far_point)) #should be cnt_centroid
+        #cv2.circle(frame, far_point, 5, [0, 0, 255], -1)
 
-        #get display resolution
-        width, height = pyautogui.size()
 
-        #split far point into integers
-        if (str(far_point) != "None"):
-            endX = int(str(far_point).find(","))
-            #pointX = int(str(far_point)[1:endX], 10)
-            pointX = bx
+        pointX = bx
+        pointY = by
+        height, width, __ = frame.shape
 
-            endY = str(far_point).find(")")
-            #pointY = int(str(far_point)[endX + 2:endY], 10)
-            pointY = by
+        lowXBound = width*1/3
+        highXBound = width*2/3
 
-            #coordinate = (str(far_point)).split()
-            #print (coordinate[0])
-            #print (coordinate([1]))
+        lowYBound = height*1/3
+        highYBound = height*2/3
 
-            print ("point x: ", pointX, "point y: ", pointY)
-            print(width, "width")
-
-            speed = math.floor((fHeight/2 - pointY)//4)
-            #print("height", height)
-            print("scroll speed ", speed)
-
-            if (speed < 20 or speed > 30): #region verically for scroll
-                speed-=10
-                pyautogui.scroll(speed) #scrolls faster depending on height
-            else:
-                speed = math.floor((fWidth/2 - pointX)//4)
-                print("zoom speed ", speed)
-                if (speed > 35):
-                    speed-=10
-                    pyautogui.keyDown('ctrl')
-                    pyautogui.press('+')
-                    pyautogui.keyUp('ctrl')
-                if (speed < 10):
-                    pyautogui.keyDown('ctrl')
-                    pyautogui.press('-')
-                    pyautogui.keyUp('ctrl')
-
-            '''#move mouse
-            pyautogui.moveTo(width - 2*pointX, 2*pointY, 0)
-            #noneCount = 0
-
-            global firstRun
-            global sameCount
-            global oldX
-            global oldY
-
-            if (firstRun == 0):
-                firstRun = 1
-            else:
-                if (pointX - oldX < 15 and pointY - oldY < 15):
-                #if the centroid stays many times in the same position, click
-                    sameCount = sameCount + 1
-                else:
-                    sameCount = 0
-
-            oldX = pointX
-            oldY = pointY
-
-            if (sameCount == 5):
-                #pyautogui.click()
-                print("click")
-                sameCount = 0'''
+        if (bx > lowXBound and bx < highXBound):
+            if (by> highYBound):
+                pyautogui.scroll(int((highYBound-by)/1))
+            elif (by < lowYBound):
+                pyautogui.scroll(int((lowYBound-by)/1))
+        elif (by > lowYBound and by < highYBound):
+            if (bx> highXBound):
+                pyautogui.keyDown('ctrl')
+                pyautogui.scroll(int((highXBound-bx)/2))#('-')
+                pyautogui.keyUp('ctrl')
+            elif (bx < lowXBound):
+                pyautogui.keyDown('ctrl')
+                pyautogui.scroll(int((lowXBound-bx)/2))#press('+')
+                pyautogui.keyUp('ctrl')
 
 
 
 
 
-        if len(traverse_point) < 20:
-            traverse_point.append(far_point)
+
+
+        #coordinate = (str(far_point)).split()
+        #print (coordinate[0])
+        #print (coordinate([1]))
+'''
+        print ("point x: ", pointX, "point y: ", pointY)
+        print(width, "width")
+
+        speed = int((fHeight/2 - by)/10)
+        #print("height", height)
+        print("scroll speed ", speed)
+
+        if (speed < -20 or speed > 20): #region verically for scroll
+            speed/=5
+            pyautogui.scroll(speed) #scrolls faster depending on height
         else:
-            traverse_point.pop(0)
-            traverse_point.append(far_point)
+            speed = int((fWidth/2 - bx)/10)
+            print("zoom speed ", speed)
+            if (speed > 20):
+                speed/=5
+                pyautogui.keyDown('ctrl')
+                pyautogui.press('+')
+                pyautogui.keyUp('ctrl')
+            if (speed < -20):
+                speed/=5
+                pyautogui.keyDown('ctrl')
+                pyautogui.press('-')
+                pyautogui.keyUp('ctrl')
 
-        draw_circles(frame, traverse_point)
-        cover_face(frame)
-def getBack (frame):
-    global background
-    global have_background
-    if have_background == False:
-        background = frame
-    #else:
-       #cv2.accumulateWeighted(frame, background,0.5);
-
-    have_background = True
-
-def cutOutFace (frame):
-    global startX
-    global startY
-    global endX
-    global endY
-    if (startX == None):
-        return frame
-    for i in range(startX, endX):
-        for j in range (startY, endY):
-            frame[i,j] = 0
-
-    return frame
-
-def getBackHist (frame):
-    global backgroundHists
-    global backDivX
-    global backDivY
-    global hand_rect_one_x, hand_rect_one_y
-
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    roi = np.zeros([90, 10, 3], dtype=hsv_frame.dtype)
-    for i in range(total_rectangle):
-        roi[i * 10: i * 10 + 10, 0: 10] = hsv_frame[hand_rect_one_x[i]:hand_rect_one_x[i] + 10, hand_rect_one_y[i]:hand_rect_one_y[i] + 10]
-
-    hand_hist = cv2.calcHist([roi], [0, 1], None, [180, 256], [0, 180, 0, 256])
-    return cv2.normalize(hand_hist, hand_hist, 0, 255, cv2.NORM_MINMAX)
-
+'''
 def plotHand():
     global lengthColec
 
@@ -562,13 +495,19 @@ def main():
 
     while capture.isOpened():
         if resetCount <=0:
-            bx = 200
-            by =300
+            bx = int(fWidth/2)
+            by = int(fHeight/2)
 
-        print("Reset data: " + str(bx) + " " + str(resetCount) + " " + str(by))
+        #print("Reset data: " + str(bx) + " " + str(resetCount) + " " + str(by))
 
         pressed_key = cv2.waitKey(1)
         _, frame = capture.read()
+
+        if is_hand_hist_created==False:
+            txtColor = [0,255,0]
+            frame = cv2.flip(frame,1)
+            cv2.putText((frame), "Place hand over all green rectangles, then press \'z\'", (10,70),cv2.FONT_HERSHEY_SIMPLEX, .7,txtColor, 2)
+            frame = cv2.flip(frame,1)
 
         if pressed_key & 0xFF == ord('z'):
             #getBack(frame)
@@ -588,15 +527,16 @@ def main():
                 all = newHands+ defHands
                 pickle.dump(all, fp)
                 sum += len(newHands)
-                print("   tot sum " + str(sum))
+                #print("   tot sum " + str(sum))
             break
 
         if is_hand_hist_created:
-            manage_image_opr(background, frame, hand_hist)
             if handFound:
                 resetCount = 100
             else:
                 resetCount -=1
+            manage_image_opr(background, frame, hand_hist)
+
 
         else:
             frame = draw_rect(frame)
