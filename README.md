@@ -1,4 +1,4 @@
-# Welcome to the Hands-Off Project
+# Welcome to the Hands-Free Laptop Control Project
 Execute the handTrack.py file run the 
 program. It works best with even, mild lighting on a constant, solid 
 color background.
