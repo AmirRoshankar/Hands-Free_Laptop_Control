@@ -1,3 +1,6 @@
+# Made for New Cooks
+Need to read a recipe on your laptop while you chop, peel and knead? Don't touch your device with your filthy hands, use this instead!
+
 # Welcome to the Hands-Free Laptop Control Project
 Execute the handTrack.py file run the 
 program. It works best with even, mild lighting on a constant, solid 
