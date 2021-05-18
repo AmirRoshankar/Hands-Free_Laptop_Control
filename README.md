@@ -2,7 +2,9 @@
 Need to read a recipe on your laptop while you chop, peel and knead? Don't touch your device with your filthy hands, use this instead!
 
 # Welcome to the Hands-Free Laptop Control Project
-View a demo of the project in the FinalDemoVideo.mp4 file.
+View a demo of the project in the FinalDemoVideo.mp4 file (also shown below).
+
+https://user-images.githubusercontent.com/38186781/118666493-3a52ad00-b7c1-11eb-87d0-69419a60237b.mp4
 
 Execute the handTrack.py file run the program. It works best with even, mild lighting on a constant, solid 
 color background.
