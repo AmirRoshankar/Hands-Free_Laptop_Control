@@ -2,7 +2,7 @@
 Need to read a recipe on your laptop while you chop, peel and knead? Don't touch your device with your filthy hands, use this instead!
 
 # Welcome to the Hands-Free Laptop Control Project
-View a demo of the project in the FinalDemoVideo.mp4 file (also shown below).
+View a demo of the project in the Hands-Free_Laptop_Control_Demo.mp4 file (also shown below).
 
 https://user-images.githubusercontent.com/38186781/118666493-3a52ad00-b7c1-11eb-87d0-69419a60237b.mp4
 
